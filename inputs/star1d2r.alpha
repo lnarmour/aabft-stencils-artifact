@@ -1,0 +1,17 @@
+affine star1d2r [T,N]->{:N>24 and T>4}
+  inputs
+    X : {[i] : 0<=i<=N};
+  outputs
+    Y : {[t,i] : 0<=t<=T and 0<=i<=N};
+  let
+    Y[t,i] = case {
+      {[t,i]: t=0 } : X[i]; 
+      {[t,i]: 1<=t and (0<=i<=1 or N-1<=i<=N)} : Y[t-1,i];
+      {[t,i]: 1<=t and 1<i<N-1} :
+            0.1650[] * Y[t-1,i-2]
+            + 0.2099[] * Y[t-1,i-1]
+            + 0.2500[] * Y[t-1,i]
+            + 0.2101[] * Y[t-1,i+1]
+            + 0.1650[] * Y[t-1,i+2];
+    };
+.
